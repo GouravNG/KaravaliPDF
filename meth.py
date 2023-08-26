@@ -18,3 +18,9 @@ def img_downloader(imgurl):
     fp.write(response.content)
     fp.close
 
+def imgid(url):
+	r=requests.get(url).text
+	test=re.findall(r"src='([^']+)'",r)
+	for i in test:
+		fullURL="https://www.karavalimunjavu.com/"+i
+		img_downloader(fullURL)
