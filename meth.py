@@ -2,6 +2,7 @@ import requests
 import re
 import os
 import img2pdf
+from configs import *
 
 def img_downloader(imgurl):
    pattern1 = r'/(\d+-\w+\.jpg)$'
@@ -41,3 +42,29 @@ def pdfMaker():
 
 	with open("pdf/name.pdf","wb") as f:
 		f.write(img2pdf.convert(imgs))
+		
+def botsend():
+	bot_token = api_key
+	chat_id = '758744186' 
+	file_path = 'pdf/name.pdf'
+
+	with open(file_path, 'rb') as pdf_file:
+		pdf_content = pdf_file.read()
+
+	url = f'https://api.telegram.org/bot{bot_token}/sendDocument'
+
+	data = {
+		'chat_id': chat_id,
+	}
+
+	files = {
+		'document': ('document.pdf', pdf_content)
+	}
+
+	response = requests.post(url, data=data, files=files)
+
+	if response.status_code == 200:
+		print('PDF sent successfully!')
+	else:
+		print('Failed to send PDF.')
+		print(response.text)
