@@ -1,7 +1,7 @@
 from meth import *
-
-url="https://www.karavalimunjavu.com/News_date.aspx?dt=2023-08-26"
-
-imgid(url)
+from datetime import date
+dateToday=str(date.today())
+fullurl=url
+imgid(fullurl)
 pdfMaker()
 botsend()
