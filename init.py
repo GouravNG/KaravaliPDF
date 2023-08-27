@@ -1,11 +1,7 @@
-from urllib.request import urlopen
-import requests
-from bs4 import BeautifulSoup
+from meth import *
 
-htmldata = urlopen('https://www.karavalimunjavu.com/News_date.aspx?dt=2023-08-25')
-soup = BeautifulSoup(htmldata, 'html.parser')
-images = soup.find_all('img')
+url="https://www.karavalimunjavu.com/News_date.aspx?dt=2023-08-26"
 
-for item in images:
-	print(item['src'])
-
+imgid(url)
+pdfMaker()
+botsend()
