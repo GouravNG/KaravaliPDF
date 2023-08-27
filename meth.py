@@ -1,5 +1,7 @@
 import requests
 import re
+import os
+import img2pdf
 
 def img_downloader(imgurl):
    pattern1 = r'/(\d+-\w+\.jpg)$'
@@ -24,3 +26,18 @@ def imgid(url):
 	for i in test:
 		fullURL="https://www.karavalimunjavu.com/"+i
 		img_downloader(fullURL)
+                
+def pdfMaker():
+	dirname = "img"
+	imgs = []
+	for fname in os.listdir(dirname):
+		if not fname.endswith(".jpg"):
+			continue
+		path = os.path.join(dirname, fname)
+		print(path)
+		# if os.path.isdir(path):
+		# 	continue
+		imgs.append(path)
+
+	with open("pdf/name.pdf","wb") as f:
+		f.write(img2pdf.convert(imgs))
