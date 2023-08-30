@@ -43,7 +43,7 @@ def pdfMaker():
 	with open("pdf/name.pdf","wb") as f:
 		f.write(img2pdf.convert(imgs))
 		
-def botsend():
+def botFileSend():
 	bot_token = api_key
 	chat_id = '758744186' 
 	file_path = 'pdf/name.pdf'
@@ -68,3 +68,7 @@ def botsend():
 	else:
 		print('Failed to send PDF.')
 		print(response.text)
+		
+def botSend(reply_msg):
+    url=f'https://api.telegram.org/bot{api_key}/sendMessage?text="{reply_msg}"&chat_id={758744186}'
+    requests.post(url)
