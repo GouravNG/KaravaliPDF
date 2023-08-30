@@ -2,6 +2,7 @@ import requests
 import re
 import os
 import img2pdf
+import datetime
 from configs import *
 
 def img_downloader(imgurl):
@@ -15,12 +16,9 @@ def img_downloader(imgurl):
         imgname=re.search(pattern2,imgurl).group(1)
     else:
         imgname=re.search(pattern1,imgurl).group(1)
-
-    print(imgname)
     fp=open('img/'+imgname,'wb')
     fp.write(response.content)
     fp.close
-    pdfMaker()
 
 def imgid(url):
 	if("No Records Available" in requests.get(url).text):
@@ -44,14 +42,15 @@ def pdfMaker():
 		# 	continue
 		imgs.append(path)
 
-	with open("pdf/name.pdf","wb") as f:
+	with open("pdf/"+today()+".pdf","wb") as f:
 		f.write(img2pdf.convert(imgs))
-	botFileSend()
+	
+
 		
 def botFileSend():
 	bot_token = api_key
 	chat_id = '758744186' 
-	file_path = 'pdf/name.pdf'
+	file_path = 'pdf/'+today()+'.pdf'
 
 	with open(file_path, 'rb') as pdf_file:
 		pdf_content = pdf_file.read()
@@ -63,7 +62,7 @@ def botFileSend():
 	}
 
 	files = {
-		'document': ('document.pdf', pdf_content)
+		'document': (today()+'.pdf', pdf_content)
 	}
 
 	response = requests.post(url, data=data, files=files)
@@ -78,3 +77,6 @@ def botSend(reply_msg):
     url=f'https://api.telegram.org/bot{api_key}/sendMessage?text="{reply_msg}"&chat_id={758744186}'
     requests.post(url)
     print("sent the msg")
+
+def today():
+	return str(datetime.date.today())
