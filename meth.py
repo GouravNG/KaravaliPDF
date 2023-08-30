@@ -22,11 +22,18 @@ def img_downloader(imgurl):
     fp.close
 
 def imgid(url):
-	r=requests.get(url).text
-	test=re.findall(r"src='([^']+)'",r)
-	for i in test:
-		fullURL="https://www.karavalimunjavu.com/"+i
-		img_downloader(fullURL)
+	if("No Records Available" in requests.get(url).text):
+		print("HE")
+		botSend("NEWS PAPER NOT UPLOADED YET")
+	else:
+		print("SHE")
+		r=requests.get(url).text
+		test=re.findall(r"src='([^']+)'",r)
+		for i in test:
+			fullURL="https://www.karavalimunjavu.com/"+i
+			img_downloader(fullURL)
+    
+		
                 
 def pdfMaker():
 	dirname = "img"
@@ -72,3 +79,4 @@ def botFileSend():
 def botSend(reply_msg):
     url=f'https://api.telegram.org/bot{api_key}/sendMessage?text="{reply_msg}"&chat_id={758744186}'
     requests.post(url)
+    print("sent the msg")
