@@ -20,21 +20,18 @@ def img_downloader(imgurl):
     fp=open('img/'+imgname,'wb')
     fp.write(response.content)
     fp.close
+    pdfMaker()
 
 def imgid(url):
 	if("No Records Available" in requests.get(url).text):
-		print("HE")
 		botSend("NEWS PAPER NOT UPLOADED YET")
 	else:
-		print("SHE")
 		r=requests.get(url).text
 		test=re.findall(r"src='([^']+)'",r)
 		for i in test:
 			fullURL="https://www.karavalimunjavu.com/"+i
 			img_downloader(fullURL)
-    
-		
-                
+                  
 def pdfMaker():
 	dirname = "img"
 	imgs = []
@@ -49,6 +46,7 @@ def pdfMaker():
 
 	with open("pdf/name.pdf","wb") as f:
 		f.write(img2pdf.convert(imgs))
+	botFileSend()
 		
 def botFileSend():
 	bot_token = api_key
